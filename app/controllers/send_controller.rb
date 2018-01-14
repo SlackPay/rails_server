@@ -22,7 +22,7 @@ class SendController < ApplicationController
     to_user = User.find_by(slack_user_name: to_user_name)
     amount = slack_arguments[1]
 
-    if amount.to_i <= 0.00001000
+    if amount.to_f <= 0.00001000
 
       if to_user && to_user.receive_address
         send_payment(amount, to_user)
@@ -36,10 +36,10 @@ class SendController < ApplicationController
       @error = "Max send is 1000 Satoshis, because we've already been hacked."
     end
 
+
     if @error
       render plain: "Doh, Something Went Wrong: #{@error}"
     else
-
       render plain: "Success, Sent #{amount} to #{to_user_name}!"
     end
   end
