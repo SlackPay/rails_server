@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       user.receive_address = receive_address
       user.save
     else
-      User.create(receive_address: reveive_address, slack_user_id: slack_user_id, slack_user_name: slack_user_id)
+      User.create(receive_address: reveive_address, slack_user_id: slack_user_id, slack_user_name: slack_user_name)
     end
 
     render plain: "Success. Address set to #{receive_address}!"
