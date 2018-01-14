@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   resources :send, only: [:create]
 
   post "/users/set_address" => "users#set_address"
+  post "/users/view_address" => "users#view_address"
+  post "/users/check_balance" => "users#check_balance"
 end

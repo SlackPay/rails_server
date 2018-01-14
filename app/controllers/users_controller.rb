@@ -28,4 +28,13 @@ class UsersController < ApplicationController
       render plain: "You haven't set a receive address yet. Use `/set_address xxxxxxxxxxx`."
     end
   end
+
+  def check_balance
+    slack_user_id   = params[:user_id]
+
+    user = User.find_by(slack_user_id: slack_user_id)
+
+    render plain: "You're current balance is 0.00043200 BCH"
+
+  end
 end
