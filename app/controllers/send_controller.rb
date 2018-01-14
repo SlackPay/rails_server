@@ -17,7 +17,7 @@ class SendController < ApplicationController
   api :POST, '/send/'
   def create
     authenticate_slack
-    
+
     slack_arguments = params[:text].split(" ")
     to_account = slack_arguments.first
     amount = slack_arguments.last
@@ -34,7 +34,7 @@ class SendController < ApplicationController
 
   private
   def authenticate_slack
-    raise "Incorrect Team. Unauthorized" if params[:team_id] == ENV["TEAM_ID"]
+    raise "Incorrect Team. Unauthorized" unless params[:team_id] == ENV["TEAM_ID"]
   end
 
 
