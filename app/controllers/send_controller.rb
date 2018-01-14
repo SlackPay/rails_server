@@ -21,7 +21,7 @@ class SendController < ApplicationController
     to_user_name = slack_arguments.first.gsub("@", "")
     amount = slack_arguments[1]
 
-    if amount.to_i <= 0.0001000
+    if amount.to_i > 0.0001000
       send_payment(amount, to_user_name)
     else
       @error = "Max send is 1000 Satashis, because we've already been hacked."
