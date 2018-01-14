@@ -5,11 +5,11 @@ class SendController < ApplicationController
   @yasin_client = Coinbase::Wallet::Client.new(api_key: ENV["YASIN_COIN_KEY"], api_secret: ENV["YASIN_COIN_SECRET"])
   @david_client = Coinbase::Wallet::Client.new(api_key: ENV["DAVID_COIN_KEY"], api_secret: ENV["DAVID_COIN_SECRET"])
 
-  USER = {
-    # @admin: dylan_client
-    david: david_client,
-    email: yasin_client
-  }
+  # USER = {
+  #   # @admin: dylan_client
+  #   david: david_client,
+  #   email: yasin_client
+  # }
 
   before_filter :authenticate_slack
 
@@ -18,7 +18,7 @@ class SendController < ApplicationController
     authenticate_slack
 
     slack_arguments = params[:text].split(" ")
-    to_account = slack_arguments.first
+    # to_account = slack_arguments.first
     amount = slack_arguments.last
 
     send_payment(amount)
@@ -27,7 +27,6 @@ class SendController < ApplicationController
       format.html { render plain: "Doh, Something Went Wrong: #{@error}" }
     else
       format.html { render plain: "Success, Sent #{amount}!" }
-    end
     end
   end
 
