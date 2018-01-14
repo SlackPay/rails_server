@@ -24,7 +24,7 @@ class SendController < ApplicationController
     if amount.to_i > 0.0001000
       send_payment(amount, to_user_name)
     else
-      @error = "Max send is 1000 Satashis, because we've already been hacked."
+      @error = "Max send is 1000 Satoshis, because we've already been hacked."
     end
 
     if @error
