@@ -19,9 +19,13 @@ class SendController < ApplicationController
 
     slack_arguments = params[:text].split(" ")
     to_user_name = slack_arguments.first.gsub("@", "")
-    amount = slack_arguments.last
+    amount = slack_arguments[1]
 
-    send_payment(amount, to_user_name)
+    if amount <= 0.0001000
+      send_payment(amount, to_user_name)
+    else
+      @error = "Max send is 1000 Satashis, because we've already been hacked."
+    end
 
     if @error
       render plain: "Doh, Something Went Wrong: #{@error}"
@@ -32,7 +36,7 @@ class SendController < ApplicationController
 
   private
   def authenticate_slack
-    raise "Incorrect Team. Unauthorized" unless params[:team_id] == ENV["TEAM_ID"]
+    raise "Unauthorized Incorrect Team or Token." unless params[:team_id] == ENV["TEAM_ID"] && param[:token] == ENV["slack_token"]
   end
 
 
