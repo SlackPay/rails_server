@@ -23,8 +23,15 @@ class SendController < ApplicationController
     amount = slack_arguments[1]
 
     if amount.to_i <= 0.00001000
-      send_payment(amount, to_user)
-      send_notification_to_user(to_user, amount)
+
+      if to_user
+        send_payment(amount, to_user)
+        send_notification_to_user(to_user, "Woot%2C%20#{params[:user_name]}%20has%20sent%20you%20#{amount}%20BCH")
+      else
+        send_notification_to_user(to_user, "Yo, someone is trying to send you currency. You might want to `/set_address` if you like money. Just saying.")
+        @error = "Recipient hasn't set up a receive address"
+      end
+
     else
       @error = "Max send is 1000 Satoshis, because we've already been hacked."
     end
@@ -56,8 +63,8 @@ class SendController < ApplicationController
     end
   end
 
-  def send_notification_to_user(to_user, amount)
-    HTTParty.get("https://slack.com/api/chat.postMessage?token=#{ENV["SLACK_HELIOS_DAVID_TOKEN"]}&channel=#{to_user.slack_user_id}&text=Woot%2C%20#{params[:user_name]}%20has%20sent%20you%20#{amount}%20BCH&pretty=1")
+  def send_notification_to_user(to_user, message)
+    HTTParty.get("https://slack.com/api/chat.postMessage?token=#{ENV["SLACK_HELIOS_DAVID_TOKEN"]}&channel=#{to_user.slack_user_id}&text=#{message}&pretty=1")
   end
 
   def generate_response
