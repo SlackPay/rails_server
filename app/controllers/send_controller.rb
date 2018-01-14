@@ -10,7 +10,8 @@ class SendController < ApplicationController
     send_payment
 
     respond_to do |format|
-      # format.html
+      format.html { render text: "Great"}
+      
       format.json {
         params[:response_url]
 
