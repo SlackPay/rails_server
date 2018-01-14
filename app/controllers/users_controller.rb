@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def set_address
     slack_user_id   = params[:user_id]
     slack_user_name = params[:user_name]
-    receive_address = params[:receive_address]
+    receive_address = params[:text]
 
     user = User.find_by(slack_user_id: slack_user_id)
 
