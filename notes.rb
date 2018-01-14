@@ -1,0 +1,18 @@
+{"id"=>"ff6bbd1c-f644-5270-bc6f-5a918d5289ac",
+ "type"=>"send",
+ "status"=>"pending",
+ "amount"=>{"amount"=>"-0.00291100", "currency"=>"ETH"},
+ "native_amount"=>{"amount"=>"-4.00", "currency"=>"USD"},
+ "description"=>nil,
+ "created_at"=>"2018-01-13T23:16:42Z",
+ "updated_at"=>"2018-01-13T23:16:42Z",
+ "resource"=>"transaction",
+ "resource_path"=>"/v2/accounts/52ec0c79-0e65-5f4a-a541-3ded7a41490d/transactions/ff6bbd1c-f644-5270-bc6f-5a918d5289ac",
+ "instant_exchange"=>false,
+ "network"=>
+  {"status"=>"pending",
+   "transaction_fee"=>{"amount"=>"0.00191100", "currency"=>"ETH"},
+   "transaction_amount"=>{"amount"=>"0.00100000", "currency"=>"ETH"},
+   "confirmations"=>0},
+ "to"=>{"resource"=>"ethereum_address", "address"=>"0x451F687f1B1e5Ca69EFd0DDe0de9fc62cc6fb9a2", "currency"=>"ETH"},
+ "details"=>{"title"=>"Sent Ethereum", "subtitle"=>"To Ethereum address"}}
