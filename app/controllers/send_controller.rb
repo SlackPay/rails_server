@@ -24,7 +24,7 @@ class SendController < ApplicationController
 
     if amount.to_i <= 0.00001000
 
-      if to_user
+      if to_user && to_user.receive_address
         send_payment(amount, to_user)
         send_notification_to_user(to_user, "Woot%2C%20#{params[:user_name]}%20has%20sent%20you%20#{amount}%20BCH")
       else
