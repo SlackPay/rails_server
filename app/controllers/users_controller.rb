@@ -6,7 +6,6 @@ class UsersController < ApplicationController
 
     user = User.find_by(slack_user_id: slack_user_id)
 
-
     if user
       user.receive_address = receive_address
       user.save
