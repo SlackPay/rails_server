@@ -13,6 +13,10 @@ gem 'apipie-rails'
 
 gem 'haml'
 
+gem 'httparty'
+
+gem 'coinbase'
+
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'

@@ -1,20 +1,47 @@
+require 'coinbase/wallet'
+
+
 class SendController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :authenticate_slack
 
   api :POST, '/send/'
   def create
-    @amount = params[:amount]
+    send_payment
 
     respond_to do |format|
       # format.html
-      format.json { render json: generate_response }
+      format.json {
+        params[:response_url]
+
+        render json: generate_response
+      }
     end
   end
 
   private
   def authenticate_slack
     true # get a api key from request
+  end
+
+
+  def send_payment
+    # amount = params[:amount]
+    # dylan_client = Coinbase::Wallet::Client.new(api_key: ENV["DYLAN_COIN_KEY"], api_secret: ENV["DYLAN_COIN_SECRET"])
+    yasin_client = Coinbase::Wallet::Client.new(api_key: ENV["YASIN_COIN_KEY"], api_secret: ENV["YASIN_COIN_SECRET"])
+    david_client = Coinbase::Wallet::Client.new(api_key: ENV["DAVID_COIN_KEY"], api_secret: ENV["DAVID_COIN_SECRET"])
+
+    david_bch_account = david_client.accounts.first
+    yasin_bch_account = yasin_client.accounts.first
+
+    # david_bch_account.send("to" => yasin_bch_account, "amount" => '0.0001', "currency" => 'BCH')
+    # david_client.send(david_bch_account["id"], {
+    #                                           "to" => yasin_bch_account.addresses.first["address"],
+    #                                            "amount" => "0.001",
+    #                                            "currency" => "BCH"
+    #                                           })
+
+   david_client.send(david_bch_account["id"], { to: yasin_bch_account.addresses.first["address"], amount: "0.001", currency: "BCH" })
   end
 
   def generate_response
