@@ -26,7 +26,9 @@ class SendController < ApplicationController
 
       if to_user && to_user.receive_address
         send_payment(amount, to_user)
+        puts "---------------- About to Send notification ----------------"
         send_notification_to_user(to_user, "Woot%2C%20#{params[:user_name]}%20has%20sent%20you%20#{amount}%20BCH")
+        puts "---------------- Done sending notification ----------------"
       else
         send_notification_to_user(to_user, "Yo, someone is trying to send you currency. You might want to `/set_address` if you like money. Just saying.")
         @error = "Recipient hasn't set up a receive address"
@@ -64,7 +66,14 @@ class SendController < ApplicationController
   end
 
   def send_notification_to_user(to_user, message)
+    puts "---------------- In #send_notification_to_user ----------------"
+    puts "---------------- In ENV['SLACK_HELIOS_DAVID_TOKEN']: #{ENV['SLACK_HELIOS_DAVID_TOKEN']} ----------------"
+    puts "---------------- to_user.slack_user_id: #{to_user.slack_user_id} ----------------"
+    puts "---------------- In message: #{message} ----------------"
+
     HTTParty.get("https://slack.com/api/chat.postMessage?token=#{ENV["SLACK_HELIOS_DAVID_TOKEN"]}&channel=#{to_user.slack_user_id}&text=#{message}&pretty=1")
+
+    puts "---------------- ending #send_notification_to_user ----------------"
   end
 
   def generate_response
