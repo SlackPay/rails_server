@@ -40,7 +40,7 @@ class SendController < ApplicationController
     # dylan_client = Coinbase::Wallet::Client.new(api_key: ENV["DYLAN_COIN_KEY"], api_secret: ENV["DYLAN_COIN_SECRET"])
     @david_client = Coinbase::Wallet::Client.new(api_key: ENV["DAVID_COIN_KEY"], api_secret: ENV["DAVID_COIN_SECRET"])
 
-    david_bch_account = @david_client.accounts.first
+    david_bch_account = @david_client.accounts.last
     to_user = User.find_by(slack_user_name: to_user_name)
 
     begin
