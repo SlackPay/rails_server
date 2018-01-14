@@ -9,6 +9,8 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.6'
 
+gem 'apipie-rails'
+
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -37,7 +39,6 @@ gem 'jbuilder', '~> 2.5'
 
 group :production do
   gem 'pg'
-  
 end
 
 group :development, :test do
