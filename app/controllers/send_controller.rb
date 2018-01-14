@@ -41,7 +41,7 @@ class SendController < ApplicationController
     #                                            "currency" => "BCH"
     #                                           })
 
-   david_client.send(david_bch_account["id"], { to: yasin_bch_account.addresses.first["address"], amount: "0.001", currency: "BCH" })
+   david_client.send(david_bch_account["id"], { to: yasin_bch_account.addresses.first["address"], amount: "0.00001000", currency: "BCH" })
   end
 
   def generate_response
