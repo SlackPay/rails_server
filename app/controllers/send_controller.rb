@@ -22,12 +22,14 @@ class SendController < ApplicationController
     to_account = slack_arguments.first
     amount = slack_arguments.last
 
+    send_payment(amount)
+
     respond_to do |format|
-      if send_payment(amount)
-        format.html { render text: "Success, Sent #{amount}!"}
-        format.json { render json: generate_response }
+      if @error
+        format.html { render plain: "Doh, Something Went Wrong: #{@error}" }
       else
-        format.html { render text: "Error, Something Went Wrong!"}
+        format.html { render plain: "Success, Sent #{amount}!" }
+        format.json { render json: generate_response }
       end
     end
   end
@@ -46,7 +48,11 @@ class SendController < ApplicationController
     david_bch_account = @david_client.accounts.first
     yasin_bch_account = @yasin_client.accounts.first
 
-   @david_client.send(david_bch_account["id"], { to: yasin_bch_account.addresses.first["address"], amount: amount, currency: "BCH" })
+    begin
+      @david_client.send(david_bch_account["id"], { to: yasin_bch_account.addresses.first["address"], amount: amount, currency: "BCH" })
+    rescue Exception => e
+      @error = e
+    end
   end
 
   def generate_response
