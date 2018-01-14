@@ -1,9 +1,5 @@
 class StatusController < ApplicationController
   def index
-    respond_to do |format|
-      format.html
-      format.json { render json: {status: "Good"} }
-    end
+    render plain: "Oh hi Mark!"
   end
-
 end
