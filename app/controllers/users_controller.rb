@@ -1,3 +1,5 @@
+require 'coinbase/wallet'
+
 class UsersController < ApplicationController
   def set_address
     slack_user_id   = params[:user_id]
@@ -30,11 +32,15 @@ class UsersController < ApplicationController
   end
 
   def check_balance
-    slack_user_id   = params[:user_id]
+    @david_client = Coinbase::Wallet::Client.new(api_key: ENV["DAVID_COIN_KEY"], api_secret: ENV["DAVID_COIN_SECRET"])
+    david_bch_account = @david_client.accounts.last
 
-    user = User.find_by(slack_user_id: slack_user_id)
+    balance = david_bch_account.balance
+    # slack_user_id   = params[:user_id]
 
-    render plain: "You're current balance is 0.00043200 BCH"
+    # user = User.find_by(slack_user_id: slack_user_id)
+
+    render plain: "You're current balance is #{balance["amount"]} #{balance["currency"]}"
 
   end
 end
