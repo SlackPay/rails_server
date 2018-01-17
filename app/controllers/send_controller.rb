@@ -86,11 +86,10 @@ class SendController < ApplicationController
 
   def send_notification_to_user(to_user, message)
     puts "---------------- In #send_notification_to_user ----------------"
-    puts "---------------- In ENV['SLACK_HELIOS_DAVID_TOKEN']: #{ENV['SLACK_HELIOS_DAVID_TOKEN']} ----------------"
     puts "---------------- to_user.slack_user_id: #{to_user.slack_user_id} ----------------"
     puts "---------------- In message: #{message} ----------------"
 
-    HTTParty.get("https://slack.com/api/chat.postMessage?token=#{ENV["SLACK_HELIOS_DAVID_TOKEN"]}&channel=#{to_user.slack_user_id}&text=#{message}&pretty=1")
+    HTTParty.get("https://slack.com/api/chat.postMessage?token=#{team_token}&channel=#{to_user.slack_user_id}&text=#{message}&pretty=1")
 
     puts "---------------- ending #send_notification_to_user ----------------"
   end
