@@ -48,7 +48,7 @@ class SendController < ApplicationController
 
   private
   def authenticate_slack
-    raise "Unauthorized Incorrect Team or Token." unless params[:team_id] == ENV["TEAM_ID"] && params[:token] == ENV["SLACK_TOKEN"]
+    raise "Unauthorized Incorrect Team or Token." unless [ENV["SLACK_TOKEN"], ENV["NEW_REPUBLIC_TEAM_SLACK_TOKEN"]].include? params[:token]
   end
 
 
