@@ -18,8 +18,10 @@ class SendController < ApplicationController
     authenticate_slack
 
     slack_arguments = params[:text].split(" ")
-    to_user_name = slack_arguments.first.gsub("@", "")
-    to_user = User.find_by(slack_user_name: to_user_name)
+    to_slack_user_name = slack_arguments.first.gsub("@", "")
+    to_slack_user_id = lookup_slack_user_id(to_user_name)
+
+    to_user = User.find_by(slack_user_id: to_slack_user_id) || User.create(slack_user_id: slack_user_id, slack_user_name: slack_user_name)
     amount = slack_arguments[1]
 
     if amount.to_f <= 0.00001000
@@ -30,7 +32,7 @@ class SendController < ApplicationController
         send_notification_to_user(to_user, "Woot%2C%20#{params[:user_name]}%20has%20sent%20you%20#{amount}%20BCH")
         puts "---------------- Done sending notification ----------------"
       else
-        send_notification_to_user(to_user, "Yo, someone is trying to send you currency. You might want to `/set_address` if you like money. Just saying.")
+        send_notification_to_user(to_user, "Yo, someone is trying to send Bitcoin Cash. You might want to use `/set_address xxxxxxxx` if you like money. Just saying.")
         @error = "Recipient hasn't set up a receive address"
       end
 
@@ -49,6 +51,15 @@ class SendController < ApplicationController
   private
   def authenticate_slack
     raise "Unauthorized Incorrect Team or Token." unless [ENV["SLACK_TOKEN"], ENV["NEW_REPUBLIC_TEAM_SLACK_TOKEN"]].include? params[:token]
+  end
+
+  def lookup_slack_user_id(to_user_name)
+    slack_users = HTTParty.get("https://slack.com/api/users.list?token=#{ENV['SLACK_NEW_REPUBLIC_DAVID_TOKEN']}&pretty=1")
+    slack_users["members"].each do |member|
+      if member["name"] == to_user_name
+        return member["id"]
+      end
+    end
   end
 
 
