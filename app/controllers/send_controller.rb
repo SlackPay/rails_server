@@ -48,7 +48,7 @@ class SendController < ApplicationController
     if @error
       render plain: "Doh, Something Went Wrong: #{@error}"
     else
-      render plain: "Success, Sent #{amount} to #{to_user_name}!"
+      render plain: "Success, Sent #{amount} to #{to_slack_user_name}!"
     end
   end
 
