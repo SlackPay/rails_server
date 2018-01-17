@@ -11,6 +11,10 @@ class SendController < ApplicationController
   #   email: yasin_client
   # }
 
+  TEAM_TOKEN = { ENV["HELIOS_TEAM_ID"] => ENV["SLACK_HELIOS_DAVID_TOKEN"],
+                 ENV["NEW_REPUBLIC_TEAM_ID"] => ENV["SLACK_NEW_REPUBLIC_DAVID_TOKEN"],
+               }
+
   before_filter :authenticate_slack
 
   api :POST, '/send/'
@@ -51,6 +55,10 @@ class SendController < ApplicationController
   private
   def authenticate_slack
     raise "Unauthorized Incorrect Team or Token." unless [ENV["SLACK_TOKEN"], ENV["NEW_REPUBLIC_TEAM_SLACK_TOKEN"]].include? params[:token]
+  end
+
+  def team_token
+    TEAM_TOKEN[params["team_id"]]
   end
 
   def lookup_slack_user_id(to_user_name)
