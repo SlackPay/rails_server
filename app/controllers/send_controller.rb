@@ -23,7 +23,7 @@ class SendController < ApplicationController
 
     slack_arguments = params[:text].split(" ")
     to_slack_user_name = slack_arguments.first.gsub("@", "")
-    to_slack_user_id = lookup_slack_user_id(to_user_name)
+    to_slack_user_id = lookup_slack_user_id(to_slack_user_name)
 
     to_user = User.find_by(slack_user_id: to_slack_user_id) || User.create(slack_user_id: to_slack_user_id, slack_user_name: to_slack_user_name)
     amount = slack_arguments[1]
